@@ -50,7 +50,7 @@ public interface UserDao {
      * @param user
      * @return 添加了多少条记录
      */
-    Integer saveUser(User user);
+    Integer saveUser(@Param(value = "user")User user);
     /**
      * 根据标识符获取对应的管理账户对象
      * @param id

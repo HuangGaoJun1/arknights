@@ -7,15 +7,6 @@ public class User {
     private  String name;
     private  String imges;
     private  String commrnt;
-    private  String phone;
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public String getUsername() {
         return username;
