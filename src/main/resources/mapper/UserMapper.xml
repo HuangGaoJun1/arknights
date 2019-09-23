@@ -29,10 +29,10 @@
     <select id="existsUserUsername" resultType="int">
 		select count(id) from user where username=#{username}
 	</select>
-    <insert id="saveUser"  parameterType="User" >
-		insert into user (id,username,password,name,imges,comment,phone)
+	<insert id="saveUser">
+		insert into user(id,username,password,name,imges,comment,phone)
 		values
-		 (null,#{username},#{password},#{name},#{imges},#{comment},#{phone})
+		(null,#{username},#{password},#{name},#{imges},#{comment},#{phone})
 	</insert>
 	<select id="getUser" resultType="User">
 		select * from user where id=#{id}

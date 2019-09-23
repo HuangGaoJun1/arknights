@@ -25,7 +25,7 @@ public class UserController {
 	@DeleteMapping(value = "/api/deleteUser")
 	public Map<String,Object> DoDeleteUser (HttpSession session,Integer id) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		User user=(User)session.getAttribute("User");
+		User user=(User)session.getAttribute("user");
 		if (userService.deleteUser(id, user.getId())){
 			map.put("msg","删除成功！");
 		}else {
@@ -39,7 +39,7 @@ public class UserController {
 	@PutMapping(value = "/api/updateUser")
 	public Map<String,Object>doUpdateUser(User user,HttpSession session) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		User userSession=(User) session.getAttribute("admin");
+		User userSession=(User) session.getAttribute("user");
 		if(userSession.getUsername().length()==0){
 			map.put("msg","账户名不能为空");
 		}else if(userSession.getName().length()==0){
@@ -67,7 +67,7 @@ public class UserController {
 	@PutMapping (value = "/api/updateUserPassword")
 	public Map<String,Object> doUpdatePassword(String oldPass, String newPass, String confirmPass, HttpSession session){
 		Map<String,Object> map=new HashMap<String,Object>();
-		User user=(User) session.getAttribute("admin");
+		User user=(User) session.getAttribute("user");
 		if(userService.userlogin(user.getUsername(), oldPass)!=null){//如果原密码正确
 			if(newPass.length()==0){
 				map.put("msg", "密码修改失败：新密码不能为空");
@@ -83,16 +83,18 @@ public class UserController {
 		}
 		return map;
 	}
+
 	@ApiOperation(value="注册用户" ,notes = "注册用户操作")
 	@ApiImplicitParam(name="addUser",value="注册用户",required = true,dataType = "User")
 	@PostMapping(value = "/api/addUser")
-
 	public Map<String,Object> doAddUser( User user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		user.setUsername(user.getUsername().trim());
 		user.setName(user.getName().trim());
-		if(user.getUsername().length()==0){
-			map.put("msg","账户注册失败:账户名不能为空");
+		if(user.getUsername().length()==0) {
+			map.put("msg", "账户注册失败:账户名不能为空");
+		}else if (user.getPassword().length()==0){
+			map.put("msg","账户注册失败:密码不能为空");
 		}else if(user.getName().length()==0){
 			map.put("msg","账户注册失败:姓名不能为空");
 		}else if(userService.existsUserUsername(user.getUsername())){
@@ -106,6 +108,7 @@ public class UserController {
 		}
 		return map;
 	}
+
 	@ApiOperation(value="查询用户" ,notes = "查询用户操作")
 	@ApiImplicitParam(name="MangeUser",value="查询用户",required = true,dataType = "User")
 	@GetMapping(value = "/api/toManageUser")

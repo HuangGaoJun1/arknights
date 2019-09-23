@@ -110,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Override
+
     public boolean saveAdmin(Admin admin) {
         boolean judge = false;
         admin.setPassword(SHA.getResult("123456"));//默认密码

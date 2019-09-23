@@ -6,7 +6,16 @@ public class User {
     private Integer id;
     private  String name;
     private  String imges;
-    private  String commrnt;
+    private  String comment;
+    private  String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getUsername() {
         return username;
@@ -37,11 +46,11 @@ public class User {
     }
 
     public String getCommrnt() {
-        return commrnt;
+        return comment;
     }
 
     public void setCommrnt(String commrnt) {
-        this.commrnt = commrnt;
+        this.comment = comment;
     }
 
     public void setName(String name) {

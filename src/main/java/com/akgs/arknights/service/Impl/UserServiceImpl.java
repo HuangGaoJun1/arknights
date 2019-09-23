@@ -112,6 +112,7 @@ public class UserServiceImpl implements UserService {
 
 
 
+    @Override
     public boolean saveUser(User user) {
         boolean judge = false;
         user.setPassword(SHA.getResult("123456"));//默认密码
