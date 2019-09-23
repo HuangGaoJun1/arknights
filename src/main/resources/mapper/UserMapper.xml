@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.akgs.arknights.dao.UserDao">
+    <!-- 根据账户名和密码，查询得到一个admin对象 -->
+	<select id="userlogin" resultType="User">
+		select * from user where username=#{username} and password=#{password}
+	</select>
+	<select id="getUserList" resultType="User">
+		select * from user order by id asc
+	</select>
+	<delete id="deleteUser" >
+		delete from user where id=#{id}
+	</delete>
+	<update id="updateUser">
+		update user
+		<set>
+			<if test="username!=null and username.length()>0">username=#{username},</if>
+			<if test="password!=null and password.length()>0">password=#{password},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+		</set>
+		where id=#{id}
+	</update>
+	<select id="existsUser" resultType="int">
+		select count(id) from user where username=#{username} and id!=#{id}
+	</select>
+    <select id="existsUserUsername" resultType="int">
+		select count(id) from user where username=#{username}
+	</select>
+    <insert id="saveUser"  parameterType="User" >
+		insert into user (id,username,password,name,imges,comment,phone)
+		values
+		 (null,#{username},#{password},#{name},#{imges},#{comment},#{phone})
+	</insert>
+	<select id="getUser" resultType="User">
+		select * from user where id=#{id}
+	</select>
+</mapper>
