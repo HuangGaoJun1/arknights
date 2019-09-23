@@ -1,7 +1,6 @@
 package com.akgs.arknights.service.Impl;
 
 import com.akgs.arknights.dao.UserDao;
-import com.akgs.arknights.model.Admin;
 import com.akgs.arknights.model.User;
 import com.akgs.arknights.service.UserService;
 import com.akgs.arknights.util.SHA;
@@ -112,6 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     public boolean saveUser(User user) {
         boolean judge = false;
         user.setPassword(SHA.getResult("123456"));//默认密码
@@ -124,9 +124,10 @@ public class UserServiceImpl implements UserService {
 
 
 
-    public User getUser(int id){
+
+    public User getUser(Integer id){
         User user=null;
-        if(id!=0){
+        if(id!=null){
             user=userDao.getUser(id);
         }
         return user;

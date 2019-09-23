@@ -86,7 +86,6 @@ public class UserController {
 	@ApiOperation(value="注册用户" ,notes = "注册用户操作")
 	@ApiImplicitParam(name="addUser",value="注册用户",required = true,dataType = "User")
 	@PostMapping(value = "/api/addUser")
-
 	public Map<String,Object> doAddUser( User user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		user.setUsername(user.getUsername().trim());
