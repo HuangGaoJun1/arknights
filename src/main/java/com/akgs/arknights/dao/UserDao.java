@@ -17,12 +17,16 @@ public interface UserDao {
      * @return 更改了多少条记录
      */
     Integer updateUser(User user);
-    /**
+ /*
      * 返回所有的管理账户集合
      * @return 以List方式返回
      */
-    List<User> getUserList();
-
+    List<User> getUserList(@Param(value = "offset")Integer offset,@Param(value = "length")Integer length);
+    /**
+     * 最大页数
+     * @return
+     */
+    int maxPage();
     /**
      * 删除指定账户
      * @param id 关键字

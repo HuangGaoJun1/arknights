@@ -3,10 +3,10 @@ package com.akgs.arknights.model;
 
 public class Admin {
 
-    private String username;
-    private String password;
-    private Integer id;
-    private  String name;
+    private String username; //管理员登录账户名
+    private String password; //管理员登录密码
+    private Integer id;      //管理员ID
+    private  String name;    //管理员名称
 
     public String getUsername() {
         return username;

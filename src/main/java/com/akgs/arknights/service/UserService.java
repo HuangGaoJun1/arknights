@@ -19,18 +19,22 @@ public interface UserService {
      * @return 更改了多少条记录
      */
     boolean updateUser(User user);
-    /**
-     * 返回所有的管理账户集合
-     * @return 以List方式返回
-     */
-    List<User> getUserList();
 
+    /**
+     * 查询管理员
+     * @return 管理员数据集
+     */
+    List<User> getUserList(Integer limit, Integer page);
+    /**
+     * 最大页数
+     */
+    int maxPage(Integer limit);
     /**
      * 删除指定账户
      * @param id 关键字
      * @return 删除了多少条记录
      */
-    boolean deleteUser(Integer id,Integer userId);
+    boolean deleteUser(Integer id);
 
     /**
      * 修改密码
@@ -39,6 +43,13 @@ public interface UserService {
      * @return
      */
     boolean updatePassword(String newPass,Integer id);
+
+    /**
+     * 确认密码
+     * @param newPass
+     * @return
+     */
+    boolean newPass(String newPass);
     /**
      * 查找在数据库中和指定用户名重名的个数
      * @param username

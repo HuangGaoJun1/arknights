@@ -3,27 +3,26 @@ package com.akgs.arknights.web;
 import com.akgs.arknights.model.User;
 import com.akgs.arknights.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-@Api(description = "LoginController 相关的api")
 @RestController
+@Api(description  = "UserLogin借口模块")
 public class UserLoginController {
     @Autowired
     private UserService userService;
-    @GetMapping(value = "/api/userlogin")
-    @ApiOperation(value="用户登录" ,notes = "用户登录操作")
-    @ApiImplicitParam(name="username",value="登录账户",required = true,dataType = "User")
 
-    public Map<String,Object> UserLogin(String username, String password, HttpSession session){
+    @ApiOperation(value = "User登录")
+    @CrossOrigin(origins = "*",allowCredentials = "true")
+    @GetMapping(value = "/api/userlogin")
+    public Map<String,Object> UserLogin( String username, String password, HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
         User user= userService.userlogin(username, password);
         if (username==""||password=="") {
@@ -32,10 +31,25 @@ public class UserLoginController {
             if (user != null) {
                 session.setAttribute("user", user);
                 map.put("code", 1);//自定义值：status.如果为1表示登录成功,如果为0表示登录失败
+                map.put("msg", "登录成功！");
             } else {
                 map.put("code", 0);//自定义值：status.如果为1表示登录成功,如果为0表示登录失败
                 map.put("msg", "登录失败:密码错误");
             }
+        }
+        return map;
+    }
+
+    @CrossOrigin(origins = "*",allowCredentials = "true")
+    @GetMapping(value = "/api/userlogout")
+    @ApiOperation(value="用户注销")
+    public Map<String,Object> UserLogout( HttpSession session){
+        Map<String,Object> map=new HashMap<String,Object>();
+        if(session!=null) {
+            User user=(User)session.getAttribute("user");//从当前session中获取用户信息
+            session.invalidate();//关闭session
+            map.put("code","1");
+            map.put("msg","注销成功！");
         }
         return map;
     }

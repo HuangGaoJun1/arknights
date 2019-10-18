@@ -8,12 +8,19 @@
 	<select id="login" resultType="Admin">
 		select * from admin where username=#{username} and password=#{password}
 	</select>
+	<!-- 查询所有管理员 -->
 	<select id="getAdminList" resultType="Admin">
-		select * from admin order by id asc
+		select * from admin ORDER BY id asc limit #{offset},#{length}
 	</select>
+	<!-- 返回最大页数 -->
+	<select id="maxPage" resultType="int">
+		select count(id) from admin
+	</select>
+	<!-- 删除管理员 -->
 	<delete id="deleteAdmin" >
 		delete from admin where id=#{id}
 	</delete>
+	<!-- 修改管理员 -->
 	<update id="updateAdmin">
 		update admin
 		<set>
@@ -23,17 +30,21 @@
 		</set>
 		where id=#{id}
 	</update>
+	<!-- 查询是否有重名 -->
 	<select id="existsAdmin" resultType="int">
 		select count(id) from admin where username=#{username} and id!=#{id}
 	</select>
+	<!-- 查询是否有重名 -->
     <select id="existsUsername" resultType="int">
 		select count(id) from admin where username=#{username}
 	</select>
+	<!-- 添加管理员 -->
     <insert id="saveAdmin">
 		insert into admin(id,username,password,name)
 		values
 		 (null,#{username},#{password},#{name})
 	</insert>
+	<!-- 根据ID查询管理员 -->
 	<select id="getAdmin" resultType="Admin">
 		select * from admin where id=#{id}
 	</select>

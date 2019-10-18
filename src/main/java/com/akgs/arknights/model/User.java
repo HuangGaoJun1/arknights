@@ -1,13 +1,16 @@
 package com.akgs.arknights.model;
 
 public class User {
-    private String username;
-    private String password;
-    private Integer id;
-    private  String name;
-    private  String imges;
-    private  String comment;
-    private  String phone;
+    private String username;   //用户登录账户名
+    private String password;   //用户登录密码
+    private Integer id;        //用户ID
+    private  String name;      //用户名称
+    private  String phone;     //用户手机号码
+    private  String mail;      //用户邮箱
+
+    public String getMail() { return mail; }
+
+    public void setMail(String mail) { this.mail = mail; }
 
     public String getPhone() {
         return phone;
@@ -45,23 +48,9 @@ public class User {
         return name;
     }
 
-    public String getCommrnt() {
-        return comment;
-    }
-
-    public void setCommrnt(String commrnt) {
-        this.comment = comment;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getImges() {
-        return imges;
-    }
 
-    public void setImges(String imges) {
-        this.imges = imges;
-    }
 }

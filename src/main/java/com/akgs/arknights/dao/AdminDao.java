@@ -1,5 +1,6 @@
 package com.akgs.arknights.dao;
 import com.akgs.arknights.model.Admin;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -24,8 +25,12 @@ public interface AdminDao {
      * 返回所有的管理账户集合
      * @return 以List方式返回
      */
-    List<Admin> getAdminList();
-
+    List<Admin>getAdminList(@Param(value = "offset")Integer offset,@Param(value = "length")Integer length);
+    /**
+     * 最大页数
+     * @return
+     */
+    int maxPage();
     /**
      * 删除指定账户
      * @param id 关键字

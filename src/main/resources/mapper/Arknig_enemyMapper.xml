@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.akgs.arknights.dao.Arknig_enemyDao">
+	<!-- 查询所有敌方图鉴 -->
+	<select id="getArknig_enemy_List" resultType="Arknig_enemy">
+		select * from arknig_enemy order by id asc
+	</select>
+	<!-- 根据攻击方式和分组查询敌方图鉴 -->
+	<select id="getArknig_enemy" resultType="Arknig_enemy">
+		select * from arknig_enemy
+		<where>
+			  <if test="attackmode!=null and grouping!=null">
+				  or attackmode=#{attackmode} and grouping=#{grouping}
+			  </if>
+			<if test="attackmode!=null and grouping==null">
+			and attackmode=#{attackmode}
+		</if>
+			<if test="attackmode==null and grouping!=null">
+				and grouping=#{grouping}
+			</if>
+		</where>
+	</select>
+	<!-- 删除敌方图鉴 -->
+	<delete id="deleteArknig_enemy" >
+		delete from arknig_enemy where id=#{id}
+	</delete>
+	<!-- 修改敌方图鉴 -->
+	<update id="updateArknig_enemy">
+		update arknig_enemy
+		<set>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+			<if test="imges!=null and imges.length()>0">imges=#{imges},</if>
+			<if test="number!=null and number.length()>0">number=#{number},</if>
+			<if test="category!=null and category.length()>0">category=#{category},</if>
+			<if test="attackmode!=null and attackmode.length()>0">attackmode=#{attackmode},</if>
+			<if test="durable!=null and durable.length()>0 ">durable=#{durable},</if>
+			<if test="aggressivity!=null and aggressivity.length()>0">aggressivity=#{aggressivity},</if>
+			<if test="defensive!=null and defensive.length()>0">defensive=#{defensive},</if>
+			<if test="weight!=null ">weight=#{weight},</if>
+			<if test="resistance!=null and resistance.length()>0">resistance=#{resistance},</if>
+			<if test="grouping!=null  and grouping.length()>0">grouping=#{grouping},</if>
+			<if test="introduce!=null and introduce.length()>0 ">introduce=#{introduce},</if>
+			<if test="remarks!=null  and remarks.length()>0 ">remarks=#{remarks},</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- 查询是否有重名 -->
+	<select id="existsArknig_enemy" resultType="int">
+		select count(id) from arknig_enemy where name=#{name}
+	</select>
+	<!-- 查询是否有重名 -->
+	<select id="existsname" resultType="int">
+		select count(id) from arknig_enemy where name=#{name}
+	</select>
+	<!-- 添加敌方图鉴 -->
+	<insert id="saveArknig_enemy">
+		insert into arknig_enemy(id,name,number,category,attackmode,durable,aggressivity,defensive,weight,resistance,grouping,introduce,remarks,imges)
+		values
+		 (null,#{name},#{number},#{category},#{attackmode},#{durable},#{aggressivity},#{defensive},#{weight},#{resistance},#{grouping},#{introduce},#{remarks},#{imges})
+	</insert>
+	<!-- 根据ID获取敌方图鉴信息 -->
+	<select id="togetArknig_enemy" resultType="Arknig_enemy">
+		select * from arknig_enemy where id=#{id}
+	</select>
+</mapper>

@@ -22,13 +22,24 @@ public interface AdminService {
      * @return 删除了多少条记录
      */
     boolean deleteAdmin(Integer id, Integer adminId);
+
     /**
-     * 返回所有的管理账户集合
-     * @return 以List方式返回
+     * 查询管理员
+     *
+     * @return 管理员数据集
      */
-    List<Admin> getAdminList();
+    List<Admin> getAdminList(Integer page, Integer limit);
+
+    /**
+     * 最大页数
+     *
+     * @param limit
+     */
+    int maxPage(Integer limit);
+
     /**
      * 修改账户的基本信息
+     *
      * @param admin id不能为空
      * @return 更改了多少条记录
      */
@@ -36,33 +47,41 @@ public interface AdminService {
 
     /**
      * 修改密码
+     *
      * @param newPass
      * @param id
      * @return
      */
-    boolean updatePassword(String newPass,Integer id);
+    boolean updatePassword(String newPass, Integer id);
+
     /**
      * 查找在数据库中和指定用户名重名的个数（用于账户编辑）
+     *
      * @param username
      * @param id
      * @return true表示存在重名账户，false表示不存在
      */
-   boolean existsAdmin(String username,Integer id);
+    boolean existsAdmin(String username, Integer id);
 
     /**
      * 判断账户名是否存在（用于创建新账户的时候）
+     *
      * @param username
      * @return true表示存在，false表示存在
      */
     boolean existsUsername(String username);
+
     /**
      * 将账户信息存入数据库
+     *
      * @param admin
      * @return true表示保存成功，false表示保存失败
      */
     boolean saveAdmin(Admin admin);
+
     /**
      * 根据标识符获取对应的管理账户对象
+     *
      * @param id
      * @return null表示没有找到
      */

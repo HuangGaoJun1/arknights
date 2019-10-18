@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.akgs.arknights.dao.Arknig_roleDao">
+	<resultMap id="arknig_role" type="Arknig_role">
+		<association property="arknig_opn" javaType="Arknig_opn" column="opn_id" select="com.akgs.arknights.dao.Arknig_roleDao.getArknig_opnList">
+		</association>
+		<association property="arknig_label" javaType="Arknig_label" column="label_id" select="com.akgs.arknights.dao.Arknig_roleDao.Arknig_labelList">
+		</association>
+	</resultMap>
+	<!-- 根据opn_id 查询职业信息 -->
+	<select id="getArknig_opnList" resultType="Arknig_role">
+	select role_id,role_imges,name,opn_id from arknig_role
+	<where>
+		<if test="opn_id!=null">
+			and	opn_id=#{opn_id}
+		</if>
+	</where>
+</select>
+	<!-- 根据条件查询角色信息 -->
+	<select id="getArknig_roleList" resultType="Arknig_role" >
+		select * from arknig_role
+		<where>
+			<if test="star!=null and opn_id!=null and gender!=null and position!=null and label_id!=null and natural!=null">
+				or star=#{star} or opn_id=#{opn_id} or label_id=#{label_id} and natura=#{natura} or gender=#{gender} or position=#{position}
+			</if>
+			<if test="gender!=null and gender==1 or gender==0">
+				and gender=#{gender}
+			</if>
+			<if test="position!=null and position==1 or position==0">
+				and position=#{position}
+			</if>
+			<if test="star != null">
+				and star=#{star}
+			</if>
+			<if test="opn_id != null">
+				and opn_id=#{opn_id}
+			</if>
+			<if test="label_id != null and label_id.length()>0">
+				<!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+				<bind name="label_id" value="'%' + label_id + '%'" />
+				and label_id like #{label_id}
+			</if>
+			<if test="natura != null">
+				and natura=#{natura}
+			</if>
+		</where>
+	</select>
+	<select id="getArknig_role" resultType="Arknig_role">
+		select * from arknig_role
+		<where>
+			<if test="role_id!=null">
+				and	role_id=#{role_id}
+			</if>
+		</where>
+	</select>
+	<update id="updateArknig_role">
+			update arknig_role
+		<set>
+			<if test="opn_id!=null ">opn_id=#{opn_id},</if>
+			<if test="label_id!=null and label_id.length()>0">label_id=#{label_id},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+			<if test="role_imges!=null ">role_imges=#{role_imges},</if>
+			<if test="natura!=null">natura=#{natura},</if>
+			<if test="position!=null ">position=#{position},</if>
+			<if test="star!=null ">star=#{star},</if>
+			<if test="camp!=null and camp.length()>0">camp=#{camp},</if>
+			<if test="camp_imges!=null and camp_imges.length()>0">camp_imges=#{camp_imges},</if>
+			<if test="gender!=null">gender=#{gender},</if>
+			<if test="painter!=null and painter.length()>0">painter=#{painter},</if>
+			<if test="CV!=null and CV.length()>0">CV=#{CV},</if>
+			<if test="charact!=null and charact.length()>0">charact=#{charact},</if>
+			<if test="accessWay!=null and accessWay.length()>0">accessWay=#{accessWay},</if>
+			<if test="experience!=null and experience.length()>0">experience=#{experience},</if>
+			<if test="birth!=null and birth.length()>0">birth=#{birth},</if>
+			<if test="birthday!=null and birthday.length()>0">birthday=#{birthday},</if>
+			<if test="race!=null and race.length()>0">race=#{race},</if>
+			<if test="height!=null and height.length()>0">height=#{height},</if>
+			<if test="oreDisInfe!=null and oreDisInfe.length()>0">oreDisInfe=#{oreDisInfe},</if>
+			<if test="objCurrVitae!=null and objCurrVitae.length()>0">objCurrVitae=#{objCurrVitae},</if>
+			<if test="function!=null and function.length()>0">function=#{function},</if>
+			<if test="mastery!=null and mastery.length()>0">mastery=#{mastery},</if>
+			<if test="brief!=null and brief.length()>0">brief=#{brief},</if>
+			<if test="background_imges!=null and background_imges.length()>0">background_imges=#{background_imges},</if>
+			<if test="elite!=null ">elite=#{elite},</if>
+			<if test="elite_imges!=null and elite_imges.length()>0">elite_imges=#{elite_imges},</if>
+		</set>
+		where role_id=#{role_id}
+	</update>
+	<!-- 查询是否有重名 -->
+	<select id="existsArknig_role" resultType="int">
+		select count(role_id) from arknig_role where name=#{name} and role_id!=#{role_id}
+	</select>
+	<!-- 添加角色 -->
+	<insert id="saveArknig_role">
+		insert into arknig_role(role_id,opn_id,label_id,name,role_imges,natura,position,star,camp,camp_imges,gender,painter,CV,charact,accessWay,experience,birth,birthday,race,height,oreDisInfe,objCurrVitae,function,mastery,brief,background_imges,elite,elite_imges)
+		values
+		(null,#{opn_id},#{label_id},#{name},#{role_imges},#{natura},#{position},#{star},#{camp},#{camp_imges},#{gender},#{painter},#{CV},#{charact},#{accessWay},#{experience},#{birth},#{birthday},#{race},#{height},#{oreDisInfe},#{objCurrVitae},#{function},#{mastery},#{brief},#{background_imges},#{elite},#{elite_imges})
+	</insert>
+	<!-- 查询是否有重名 -->
+	<select id="existsname" resultType="int">
+		select count(role_id) from arknig_role where name=#{name}
+	</select>
+	<!-- 删除角色 -->
+	<delete id="deleteArknig_role">
+		delete from arknig_role where role_id=#{role_id}
+	</delete>
+</mapper>

@@ -4,11 +4,12 @@ import com.akgs.arknights.dao.AdminDao;
 import com.akgs.arknights.model.Admin;
 import com.akgs.arknights.service.AdminService;
 import com.akgs.arknights.util.SHA;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-
+@Primary
 @Service
 public class AdminServiceImpl implements AdminService {
 @Resource
@@ -52,10 +53,6 @@ public class AdminServiceImpl implements AdminService {
         return status;
     }
 
-    public List<Admin> getAdminList() {
-        return adminDao.getAdminList();
-   }
-
     /**
      * 修改信息
      *
@@ -72,6 +69,7 @@ public class AdminServiceImpl implements AdminService {
                 status = false;
             }
         }
+
         return status;
     }
 
@@ -110,7 +108,11 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-
+    /**
+     * 添加管理员
+     * @param admin
+     * @return
+     */
     public boolean saveAdmin(Admin admin) {
         boolean judge = false;
         admin.setPassword(SHA.getResult("123456"));//默认密码
@@ -121,6 +123,11 @@ public class AdminServiceImpl implements AdminService {
         return judge;
     }
 
+    /**
+     * 根据ID符获取对应的管理账户对象
+     * @param id
+     * @return null表示没有找到
+     */
     public Admin getAdmin(Integer id){
         Admin admin=null;
         if(id!=null){
@@ -128,5 +135,37 @@ public class AdminServiceImpl implements AdminService {
         }
         return admin;
     }
+    /**
+     * 查询管理员
+     * @return 管理员数据集
+     */
+    public List<Admin>getAdminList(Integer page,Integer limit){
+        int pagesize=10;
+        /*if(page==null){
+            page=1;
+        }else if (page==0){
+            page=1;
+        }else if (page<1){
+            page=1;
+        }*/
+        int offset=(page-1)*pagesize+1;
+        return adminDao.getAdminList(offset-1,pagesize);
+    }
+    /**
+     * 查询全部记录数，最大页
+     * @return
+     * @param limit
+     */
 
+    public int maxPage(Integer limit) {
+        int maxPage;
+        int pagesize=10;
+        int total=adminDao.maxPage();
+        if (total%pagesize==0){
+            maxPage=total/pagesize;
+        }else{
+            maxPage=total/pagesize+1;
+        }
+        return maxPage;
+    }
 }
